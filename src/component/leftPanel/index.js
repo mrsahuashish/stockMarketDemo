@@ -1,11 +1,11 @@
 import WatchList from "../../main/watchList";
 
 function LeftPanel(props) {
-    const {watchlist, watchlistPrice} = props;
+    const {setWatchList, watchlist, watchlistPrice} = props;
 
   return (
     <>
-      <WatchList watchlist={watchlist} watchlistPrice={watchlistPrice} />
+      <WatchList setWatchList={setWatchList} watchlist={watchlist} watchlistPrice={watchlistPrice} />
     </>
   );
 }

@@ -1,4 +1,5 @@
 function Subscribe(tokens, setWatchListPrice) {
+  
   const generateRandomPrice = () => {
     // Generate a random price (for demonstration, using a random number between 1 and 100)
     return Math.floor(Math.random() * 10000) + 1;
