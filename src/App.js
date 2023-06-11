@@ -1,35 +1,49 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Paper } from "@mui/material";
-import LeftPanel from "./component/leftPanel";
-import RightPanel from "./component/rightPanel";
-import Subscribe from "./component/socket/Subscribe";
-import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import { Grid } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { beforeLoginRoutes, afterLoginRoutes } from "./routesConfig";
 
 const theme = createTheme();
 
+// Placeholder component for unknown routes
+const NotFound = () => {
+  return <h1>404 Not Found</h1>;
+};
+
 function App() {
-  
-  const [watchlist, setWatchList] = useState([]);
-  const [watchlistPrice, setWatchListPrice] = useState([]);
-  useEffect(() => {
-    console.log('watchlistPrice:', watchlistPrice);
-  }, [watchlistPrice]);
-  
-  useEffect(() => {
-    const tokens = watchlist.map((item) => item.token);
-    Subscribe(tokens, setWatchListPrice);
-  }, [watchlist]);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const handleLogin = () => {
+    setLoggedIn(true);
+  };
 
   return (
     <ThemeProvider theme={theme}>
       <Grid container spacing={0}>
-        <LeftPanel
-          setWatchList={setWatchList}
-          watchlist={watchlist}
-          watchlistPrice={watchlistPrice}
-        />
-
-        <RightPanel watchlistPrice={watchlistPrice} setWatchListPrice={setWatchListPrice} setWatchList={setWatchList} />
+        <Router>
+          <Routes>
+            {!loggedIn ? (
+              beforeLoginRoutes.map((route, index) => (
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={<route.component handleLogin={handleLogin} />}
+                />
+              ))
+            ) : (
+              afterLoginRoutes.map((route, index) => (
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={<route.component />}
+                />
+              ))
+            )}
+            <Route path="/" element={<Navigate to={loggedIn ? "/dashboard" : "/login"} />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Router>
       </Grid>
     </ThemeProvider>
   );
