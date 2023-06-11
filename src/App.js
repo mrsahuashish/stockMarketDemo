@@ -8,12 +8,15 @@ import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 const theme = createTheme();
 
 function App() {
-  const [watchlistPrice, setWatchListPrice] = useState([]);
+  
   const [watchlist, setWatchList] = useState([]);
-
+  const [watchlistPrice, setWatchListPrice] = useState([]);
+  useEffect(() => {
+    console.log('watchlistPrice:', watchlistPrice);
+  }, [watchlistPrice]);
+  
   useEffect(() => {
     const tokens = watchlist.map((item) => item.token);
-
     Subscribe(tokens, setWatchListPrice);
   }, [watchlist]);
 

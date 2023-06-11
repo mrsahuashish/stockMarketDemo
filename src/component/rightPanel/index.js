@@ -3,6 +3,7 @@ import { Grid, Paper } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Portfolio from "../../main/portFolio";
+import Dashboard from "../../main/dashboard";
 
 const RightDiv = styled(Paper)(({ theme }) => ({
   height: "100vh",
@@ -22,6 +23,7 @@ function RightPanel(props) {
           <Grid item xs={12}>
             <Header />
             <Routes>
+              <Route path="/" element={<Dashboard />} />
               <Route path="/portfolio" element={<Portfolio watchlistPrice={watchlistPrice} setWatchListPrice={setWatchListPrice} setWatchList={setWatchList} />} />
             </Routes>
           </Grid>
